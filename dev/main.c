@@ -97,34 +97,28 @@ void MySort(int array[], int n) {
             break;
         }
     if (s_second == -1) return;//should be handled
-    //생각해보니 s_first가 없는 케이스는 이미 정렬이 되어있는거라 바로 리턴 ㄱㄴ
+//생각해보니 s_first가 없는 케이스는 이미 정렬이 되어있는거라 바로 리턴 ㄱㄴ
     e_first = s_second;
     int cur_first = s_first, cur_second = s_second, cur_new = 0;
     while (cur_first < e_first || cur_second < e_second) {
-        if (cur_first >= e_first || cur_second >= e_second) {
-            if (cur_first >= e_first) {
-                while (cur_second < e_second) {
-                    new_array[cur_new++] = array[cur_second];
-                    cur_second++;
-                }
-            } else {
-                while (cur_first < e_first) {
-                    new_array[cur_new++] = array[cur_first];
-                    cur_first++;
-                }
-            }
+        if (cur_first >= e_first) {
+            new_array[cur_new++] = array[cur_second];
+            cur_second++;
+        } else if (cur_second >= e_second||array[cur_first] <= array[cur_second]) {
+            new_array[cur_new++] = array[cur_first];
+            cur_first++;
+        } else if (array[cur_first] <= array[cur_second]) {
+            new_array[cur_new++] = array[cur_first];
+            cur_first++;
         } else {
-            if (array[cur_first] <= array[cur_second]) {
-                new_array[cur_new++] = array[cur_first];
-                cur_first++;
-            } else {
-                new_array[cur_new++] = array[cur_second];
-                cur_second++;
-            }
+            new_array[cur_new++] = array[cur_second];
+            cur_second++;
         }
     }
-    free(array);
-    array = new_array;
+    for (int i = 0; i < n; i++) {
+        array[i] = new_array[i];
+    }
+    free(new_array);
 }
 
 int main() {
