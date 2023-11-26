@@ -1,50 +1,49 @@
-#include <math.h>
-#include <stdio.h>
+#include <math.h> 
+#include <stdio.h>   
 #include <stdlib.h>
 #include <time.h>
-
 #define length 100000
 
-int *makeArray(int n) {
+int* makeArray(int n)
+{
     srand(time(NULL));
     int idx = 0;
     int i, j = 0;
-    int *outArr = (int *) malloc(sizeof(int) * n);
-    int *tmpArr = (int *) malloc(sizeof(int) * n * 100);
+    int* outArr = (int*)malloc(sizeof(int) * n);
+    int* tmpArr = (int*)malloc(sizeof(int) * n * 100);
 
     for (i = 0; i < n * 100; i++) {
         tmpArr[i] = i;
     }
 
-    idx = rand() % n;// 0 ~ n-1
-    //range outArr[i+1] - outArr[i] = 1 ~ 10
+    idx = rand() % n;
     for (i = 0; i < idx; i++) {
-        j += (rand() % 10) + 1;// 1 to 10
+        j += (rand() % 10) + 1;
         outArr[i] = tmpArr[j];
     }
 
     j = 0;
-    //same as above
     for (i = idx; i < n; i++) {
         j += (rand() % 10) + 1;
         outArr[i] = tmpArr[j];
     }
 
-    //첫, 두 번째 생성기 각각 내부에서는 연속해서 같은 값이 저장되지 못함
-    //첫 번째 생성기의 마지막 값과 두 번째 생성기의 첫 번째 값은 같을 수 있음
     free(tmpArr);
     return outArr;
 }
 
-void swap(int *a, int *b) {
+void swap(int* a, int* b)
+{
     int temp = *a;
     *a = *b;
     *b = temp;
 }
 
-void selectionSort(int array[], int n) {
+void selectionSort(int array[], int n)
+{
     int i, j, min_element;
-    for (i = 0; i < n - 1; i++) {
+    for (i = 0; i < n - 1; i++)
+    {
         min_element = i;
         for (j = i + 1; j < n; j++)
             if (array[j] < array[min_element])
@@ -53,12 +52,11 @@ void selectionSort(int array[], int n) {
     }
 }
 
-void insertionSort(int array[], int n) {
+void insertionSort(int array[], int n)
+{
     int i, element, j;
     for (i = 1; i < n; i++) {
-        element = array[i];
-        j = i - 1;
-        while (j >= 0 && array[j] > element) {
+        element = array[i]; j = i - 1; while (j >= 0 && array[j] > element) {
             array[j + 1] = array[j];
             j = j - 1;
         }
@@ -66,16 +64,18 @@ void insertionSort(int array[], int n) {
     }
 }
 
-int isSorted(int array[], int n) {
+int isSorted(int array[], int n)
+{
     int i;
-    for (i = 0; i < n - 1; i++)
-        if (array[i] > array[i + 1])
+    for (i = 0; i < n-1; i++)
+        if(array[i] > array[i+1])
             return 0;
 
     return 1;
 }
 
-long long arrSum(int array[], int n) {
+long long arrSum(int array[], int n)
+{
     int i;
     long long sum = 0;
     for (i = 0; i < n; i++)
@@ -84,10 +84,11 @@ long long arrSum(int array[], int n) {
     return sum;
 }
 
-// or MySort(int array[], int l, int r)
-void MySort(int array[], int n) {
+// or MySort(int array[], int l, int r) 
+void MySort(int array[], int n) 
+{
     // Implement your algorithm
-    //변수 초기화
+    //���� �ʱ�ȭ
     int *new_array = (int *) malloc(sizeof(int) * n);
     int cur_FirArr = 0, cur_SecArr = -1, cur_new = 0;
     for (int i = 0; i < n - 1; i++) {
@@ -96,7 +97,7 @@ void MySort(int array[], int n) {
             break;
         }
     }
-    if (cur_SecArr == -1) return;//이미 정렬 되어있는 경우
+    if (cur_SecArr == -1) return;//�̹� ���� �Ǿ��ִ� ���
     const int EndOfFirArr = cur_SecArr, EndOfSecArr = n;
 
     while (cur_new < n) {
@@ -120,13 +121,14 @@ void MySort(int array[], int n) {
     free(new_array);
 }
 
-int main() {
-    int *Data;
+int main()
+{
+    int* Data;
     int Data_copy[length];
     int i;
     double time_taken;
     clock_t t;
-
+    
     // Data generation
     Data = makeArray(length);
     for (i = 0; i < length; i++) {
@@ -135,13 +137,13 @@ int main() {
     printf("Original Data Descriptions");
     printf("Are Data Sorted?: %d \n", isSorted(Data_copy, length));
     printf("Data Sum: %lld \n\n", arrSum(Data_copy, length));
-
+    
 
     // Insertion Sort
     t = clock();
     insertionSort(Data_copy, length);
     t = clock() - t;
-    time_taken = ((double) t) / CLOCKS_PER_SEC;
+    time_taken = ((double)t) / CLOCKS_PER_SEC;
     printf("Insertion Sort took %f seconds to execute \n", time_taken);
     printf("Are Data Sorted?: %d \n", isSorted(Data_copy, length));
     printf("Data Sum: %lld \n\n", arrSum(Data_copy, length));
@@ -152,9 +154,9 @@ int main() {
         Data_copy[i] = Data[i];
     }
     t = clock();
-    //selectionSort(Data_copy, length);
+    selectionSort(Data_copy, length);
     t = clock() - t;
-    time_taken = ((double) t) / CLOCKS_PER_SEC;
+    time_taken = ((double)t) / CLOCKS_PER_SEC;
     printf("Selection Sort took %f seconds to execute \n", time_taken);
     printf("Are Data Sorted?: %d \n", isSorted(Data_copy, length));
     printf("Data Sum: %lld \n\n", arrSum(Data_copy, length));
@@ -168,7 +170,7 @@ int main() {
     MySort(Data_copy, length);
     // or MySort(Data_copy, 0, length - 1);
     t = clock() - t;
-    time_taken = ((double) t) / CLOCKS_PER_SEC;
+    time_taken = ((double)t) / CLOCKS_PER_SEC;
     printf("My Sort took %f seconds to execute \n", time_taken);
     printf("Are Data Sorted?: %d \n", isSorted(Data_copy, length));
     printf("Data Sum: %lld \n\n", arrSum(Data_copy, length));
